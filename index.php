@@ -11,6 +11,15 @@ switch ($action) {
     case 'store':
         $controller->store($_POST);
         break;
+    case 'edit':
+        $controller->edit($_GET['id']);
+        break;
+    case 'update':
+        $controller->update($_POST);
+        break;
+    case 'destroy':
+        $controller->destroy($_GET['id']);
+        break;
     default:
         $controller->index();
 }
