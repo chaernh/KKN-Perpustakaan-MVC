@@ -4,11 +4,11 @@ require_once 'Models/Buku.php';
 class BukuController {
     public function index() {
         $bukuList = Buku::all();
-        include 'Views/buku/list.php';
+        include 'Views/Buku/list.php';
     }
 
     public function create() {
-        include 'Views/buku/form.php';
+        include 'Views/Buku/form.php';
     }
 
     public function store($data) {
