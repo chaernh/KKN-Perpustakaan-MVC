@@ -1,3 +1,11 @@
+<?php
+/**
+ * View untuk halaman beranda
+ * 
+ * Menampilkan pesan selamat datang dan informasi dasar tentang aplikasi.
+ * View ini akan dimasukkan ke dalam layout utama.
+ */
+?>
 <!DOCTYPE html>
 <html>
 <body>

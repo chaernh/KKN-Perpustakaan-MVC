@@ -6,20 +6,37 @@ Sistem manajemen perpustakaan sederhana yang dibangun menggunakan arsitektur MVC
 
 Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data.
 
+## Fitur
+
+- [x] Halaman beranda dengan navigasi
+- [x] Manajemen buku (CRUD)
+  - Melihat daftar buku
+  - Menambah buku baru
+  - Mengedit data buku
+  - Menghapus buku
+- [x] Layout responsif dengan navbar
+- [x] Validasi input
+- [x] Proteksi SQL Injection menggunakan PDO
+
 ## Struktur Proyek
 
 ```
 perpustakaan-mvc/
 ├── Configs/
-│   └── database.php      # Konfigurasi koneksi database
+│   └── Database.php      # Konfigurasi koneksi database
 ├── Controllers/
-│   └── BukuController.php # Controller untuk mengelola operasi buku
+│   ├── BerandaController.php # Controller untuk halaman beranda
+│   └── BukuController.php    # Controller untuk operasi buku
 ├── Models/
 │   └── Buku.php          # Model untuk operasi data buku
 ├── Views/
+│   ├── layouts/
+│   │   └── main.php      # Layout utama dengan navbar
+│   ├── Beranda/
+│   │   └── index.php     # View halaman beranda
 │   └── Buku/
-│       ├── list.php      # Tampilan daftar buku
-│       └── form.php      # Form tambah/edit buku
+│       ├── list.php      # View daftar buku
+│       └── form.php      # View form tambah/edit buku
 └── index.php             # Entry point aplikasi
 ```
 
@@ -51,7 +68,7 @@ perpustakaan-mvc/
    );
    ```
 
-4. Sesuaikan konfigurasi database di `Configs/database.php`:
+4. Sesuaikan konfigurasi database di `Configs/Database.php`:
    ```php
    private static $host = "localhost";
    private static $db_name = "perpustakaan";
@@ -66,11 +83,11 @@ perpustakaan-mvc/
    http://localhost/perpustakaan-mvc
    ```
 
-2. Fitur yang tersedia:
-   - Melihat daftar buku
-   - Menambah buku baru
-   - Mengedit data buku
-   - Menghapus buku
+2. Navigasi:
+   - Klik "Beranda" untuk kembali ke halaman utama
+   - Klik "Daftar Buku" untuk melihat dan mengelola buku
+   - Gunakan tombol "Tambah Buku" untuk menambah buku baru
+   - Gunakan tombol "Edit" dan "Hapus" untuk mengelola buku yang ada
 
 ## Struktur MVC
 
@@ -79,24 +96,15 @@ perpustakaan-mvc/
 - Berisi method untuk CRUD operasi buku
 - Menggunakan PDO untuk keamanan database
 
-### View (Views/Buku/)
+### View (Views/)
 - Menampilkan antarmuka pengguna
-- Terdiri dari form dan list view
+- Terdiri dari layout utama dan view spesifik
 - Menggunakan PHP untuk menampilkan data dinamis
 
-### Controller (Controllers/BukuController.php)
+### Controller (Controllers/)
 - Menangani request dari user
 - Mengkoordinasikan antara Model dan View
 - Memproses data sebelum ditampilkan/disimpan
-
-## Fitur
-
-- [x] Melihat daftar buku
-- [x] Menambah buku baru
-- [x] Mengedit data buku
-- [x] Menghapus buku
-- [x] Validasi input
-- [x] Proteksi SQL Injection menggunakan PDO
 
 ## Keamanan
 

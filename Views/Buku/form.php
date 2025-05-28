@@ -1,3 +1,16 @@
+<?php
+/**
+ * View untuk form tambah/edit buku
+ * 
+ * Menampilkan form untuk menambah atau mengedit buku dengan:
+ * - Input judul buku
+ * - Input pengarang
+ * - Tombol submit
+ * 
+ * Variabel yang digunakan:
+ * @var Buku|null $buku Objek Buku jika dalam mode edit, null jika dalam mode tambah
+ */
+?>
 <!DOCTYPE html>
 <html>
 <body>

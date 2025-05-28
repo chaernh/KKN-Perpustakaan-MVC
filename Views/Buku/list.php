@@ -1,3 +1,16 @@
+<?php
+/**
+ * View untuk menampilkan daftar buku
+ * 
+ * Menampilkan tabel buku dengan fitur:
+ * - Tombol untuk menambah buku baru
+ * - Daftar buku dalam format list
+ * - Tombol edit dan hapus untuk setiap buku
+ * 
+ * Variabel yang digunakan:
+ * @var array $bukuList Array berisi objek Buku
+ */
+?>
 <!DOCTYPE html>
 <html>
 <body>

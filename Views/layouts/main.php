@@ -1,3 +1,18 @@
+<?php
+/**
+ * Layout utama aplikasi perpustakaan
+ * 
+ * File ini berisi template HTML dasar yang digunakan di seluruh aplikasi.
+ * Layout ini menyediakan:
+ * - Navbar untuk navigasi
+ * - Container untuk konten
+ * - Styling dasar
+ * 
+ * Variabel yang digunakan:
+ * @var string $title Judul halaman (opsional)
+ * @var string $content Konten halaman yang akan ditampilkan
+ */
+?>
 <!DOCTYPE html>
 <html>
 <head>
