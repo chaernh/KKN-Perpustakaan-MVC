@@ -1,9 +1,14 @@
 <?php
-require_once 'Configs/database.php';
+require_once 'Configs/DummyData.php';
 
 /**
  * Model untuk mengelola data buku
- * Berisi method-method untuk operasi database terkait buku
+ * 
+ * Model ini menggunakan DummyData untuk operasi CRUD buku.
+ * Semua operasi database digantikan dengan operasi pada array di DummyData.
+ * 
+ * @package Perpustakaan
+ * @version 1.0
  */
 class Buku {
     /** @var int|null ID buku */
@@ -26,16 +31,13 @@ class Buku {
     }
 
     /**
-     * Mengambil semua data buku dari database
+     * Mengambil semua data buku dari DummyData
      * @return array Array berisi objek Buku
      */
     public static function all() {
-        $pdo = Database::connect();
-        $query = "SELECT * FROM buku";
-        $stmt = $pdo->query($query);
         $result = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = new Buku($row['id'], $row['judul'], $row['pengarang']);
+        foreach (DummyData::getAllBuku() as $buku) {
+            $result[] = new Buku($buku['id'], $buku['judul'], $buku['pengarang']);
         }
         return $result;
     }
@@ -46,47 +48,35 @@ class Buku {
      * @return Buku|null Objek Buku jika ditemukan, null jika tidak ditemukan
      */
     public static function find($id) {
-        $pdo = Database::connect();
-        $query = "SELECT * FROM buku WHERE id = ?";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new Buku($row['id'], $row['judul'], $row['pengarang']);
+        $buku = DummyData::findBuku($id);
+        if ($buku) {
+            return new Buku($buku['id'], $buku['judul'], $buku['pengarang']);
         }
         return null;
     }
 
     /**
-     * Menyimpan data buku baru ke database
-     * Method ini akan membuat record baru di tabel buku
+     * Menyimpan data buku baru ke DummyData
+     * Method ini akan membuat record baru di DummyData
      */
     public function save() {
-        $pdo = Database::connect();
-        $query = "INSERT INTO buku (judul, pengarang) VALUES (?, ?)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$this->judul, $this->pengarang]);
+        DummyData::addBuku($this->judul, $this->pengarang);
     }
 
     /**
-     * Memperbarui data buku di database
-     * Method ini akan mengupdate record yang sudah ada di tabel buku
+     * Memperbarui data buku di DummyData
+     * Method ini akan mengupdate record yang sudah ada di DummyData
      */
     public function update() {
-        $pdo = Database::connect();
-        $query = "UPDATE buku SET judul = ?, pengarang = ? WHERE id = ?";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$this->judul, $this->pengarang, $this->id]);
+        DummyData::updateBuku($this->id, $this->judul, $this->pengarang);
     }
 
     /**
-     * Menghapus buku dari database
+     * Menghapus buku dari DummyData
      * @param int $id ID buku yang akan dihapus
+     * @return bool true jika berhasil dihapus, false jika gagal
      */
     public static function delete($id) {
-        $pdo = Database::connect();
-        $query = "DELETE FROM buku WHERE id = ?";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([$id]);
+        return DummyData::deleteBuku($id);
     }
 }

@@ -1,25 +1,29 @@
 <?php
 require_once 'Controllers/BukuController.php';
+require_once 'Controllers/BerandaController.php';
+require_once 'Controllers/AnggotaController.php';
 
-$controller = new BukuController();
+$controller = $_GET['controller'] ?? 'beranda';
 $action = $_GET['action'] ?? 'index';
 
-switch ($action) {
-    case 'create':
-        $controller->create();
+switch ($controller) {
+    case 'buku':
+        $controller = new BukuController();
+        if (method_exists($controller, $action)) {
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
         break;
-    case 'store':
-        $controller->store($_POST);
-        break;
-    case 'edit':
-        $controller->edit($_GET['id']);
-        break;
-    case 'update':
-        $controller->update($_POST);
-        break;
-    case 'destroy':
-        $controller->destroy($_GET['id']);
+    case 'anggota':
+        $controller = new AnggotaController();
+        if (method_exists($controller, $action)) {
+            $controller->$action();
+        } else {
+            $controller->index();
+        }
         break;
     default:
+        $controller = new BerandaController();
         $controller->index();
 }

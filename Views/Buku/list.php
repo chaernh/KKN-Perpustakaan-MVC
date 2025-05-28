@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head><title>Daftar Buku</title></head>
-<body>
-    <h1>Daftar Buku</h1>
-    <a href="?action=create">Tambah Buku</a>
-    <ul>
-        <?php foreach ($bukuList as $buku): ?>
-            <li>
-                <?= htmlspecialchars($buku->judul) ?> - <?= htmlspecialchars($buku->pengarang) ?>
-                <a href="?action=edit&id=<?= $buku->id ?>">Edit</a>
-                <a href="?action=destroy&id=<?= $buku->id ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">Hapus</a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</body>
-</html>
+<?php
+/**
+ * View untuk menampilkan daftar buku
+ * 
+ * View ini menampilkan daftar buku dalam format tabel dengan fitur:
+ * - Tombol untuk menambah buku baru
+ * - Tabel yang menampilkan data buku
+ * - Tombol edit dan hapus untuk setiap buku
+ */
+
+?>
+<h1>Daftar Buku</h1>
+<a href="?controller=buku&action=create" class="btn-tambah-buku">Tambah Buku</a>
+<ul>
+    <?php foreach ($bukuList as $buku): ?>
+        <li>
+            <div class="buku-info">
+                <strong><?php echo htmlspecialchars($buku->judul); ?></strong>
+                <p>Pengarang: <?php echo htmlspecialchars($buku->pengarang); ?></p>
+            </div>
+            <div class="buku-actions">
+                <a href="?controller=buku&action=edit&id=<?php echo $buku->id; ?>" class="btn-edit">Edit</a>
+                <a href="?controller=buku&action=destroy&id=<?php echo $buku->id; ?>" 
+                   onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')" 
+                   class="btn-delete">Hapus</a>
+            </div>
+        </li>
+    <?php endforeach; ?>
+</ul>
