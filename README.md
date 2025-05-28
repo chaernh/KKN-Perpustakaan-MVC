@@ -4,7 +4,7 @@ Sistem manajemen perpustakaan sederhana yang dibangun menggunakan arsitektur MVC
 
 ## Deskripsi
 
-Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data.
+Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data. Sistem ini menggunakan data dummy untuk memudahkan pengembangan tanpa memerlukan database.
 
 ## Fitur
 
@@ -16,14 +16,15 @@ Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan f
   - Menghapus buku
 - [x] Layout responsif dengan navbar
 - [x] Validasi input
-- [x] Proteksi SQL Injection menggunakan PDO
+- [x] Data dummy untuk pengembangan
 
 ## Struktur Proyek
 
 ```
 perpustakaan-mvc/
 ├── Configs/
-│   └── Database.php      # Konfigurasi koneksi database
+│   ├── Database.php      # Konfigurasi koneksi database (tidak digunakan)
+│   └── DummyData.php     # Data dummy untuk pengembangan
 ├── Controllers/
 │   ├── BerandaController.php # Controller untuk halaman beranda
 │   └── BukuController.php    # Controller untuk operasi buku
@@ -43,7 +44,6 @@ perpustakaan-mvc/
 ## Persyaratan Sistem
 
 - PHP 7.4 atau lebih tinggi
-- MySQL/MariaDB
 - Web server (Apache/Nginx)
 - XAMPP (direkomendasikan untuk development)
 
@@ -54,26 +54,9 @@ perpustakaan-mvc/
    git clone [url-repositori]
    ```
 
-2. Buat database baru di MySQL:
-   ```sql
-   CREATE DATABASE perpustakaan;
+2. Buka aplikasi melalui browser:
    ```
-
-3. Import struktur tabel buku:
-   ```sql
-   CREATE TABLE buku (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       judul VARCHAR(255) NOT NULL,
-       pengarang VARCHAR(255) NOT NULL
-   );
-   ```
-
-4. Sesuaikan konfigurasi database di `Configs/Database.php`:
-   ```php
-   private static $host = "localhost";
-   private static $db_name = "perpustakaan";
-   private static $username = "root";
-   private static $password = ""; // sesuaikan dengan password MySQL Anda
+   http://localhost/perpustakaan-mvc
    ```
 
 ## Penggunaan
@@ -92,9 +75,9 @@ perpustakaan-mvc/
 ## Struktur MVC
 
 ### Model (Models/Buku.php)
-- Menangani logika data dan operasi database
+- Menangani logika data
 - Berisi method untuk CRUD operasi buku
-- Menggunakan PDO untuk keamanan database
+- Menggunakan DummyData untuk penyimpanan data
 
 ### View (Views/)
 - Menampilkan antarmuka pengguna
@@ -106,12 +89,12 @@ perpustakaan-mvc/
 - Mengkoordinasikan antara Model dan View
 - Memproses data sebelum ditampilkan/disimpan
 
-## Keamanan
+## Data Dummy
 
-- Menggunakan PDO untuk mencegah SQL Injection
-- Validasi input pada form
-- Escape output menggunakan htmlspecialchars
-- Konfirmasi sebelum menghapus data
+Sistem menggunakan data dummy yang disimpan di `Configs/DummyData.php`. Data ini mencakup:
+- Daftar buku awal
+- Method untuk operasi CRUD
+- Manajemen ID otomatis
 
 ## Pengembangan
 
