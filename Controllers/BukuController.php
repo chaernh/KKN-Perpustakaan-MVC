@@ -22,9 +22,6 @@ class BukuController {
         $title = 'Daftar Buku - Perpustakaan';
         $bukuList = Buku::all();
         
-        // Debug: Tampilkan data yang akan dikirim ke view
-        error_log('Data di Controller Index: ' . print_r($bukuList, true));
-        
         ob_start();
         include 'Views/Buku/list.php';
         $content = ob_get_clean();
@@ -48,18 +45,8 @@ class BukuController {
      */
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Debug: Tampilkan data yang diterima
-            error_log('Data POST: ' . print_r($_POST, true));
-            
             $buku = new Buku(null, $_POST['judul'], $_POST['pengarang']);
-            
-            // Debug: Tampilkan objek buku yang dibuat
-            error_log('Objek Buku: ' . print_r($buku, true));
-            
             $buku->save();
-            
-            // Debug: Tampilkan data buku setelah disimpan
-            error_log('Data Buku Setelah Save: ' . print_r(Buku::all(), true));
         }
         header("Location: ?controller=buku");
         exit();

@@ -8,8 +8,6 @@
  * - Tombol edit dan hapus untuk setiap buku
  */
 
-// Debug: Tampilkan data yang diterima view
-error_log('Data di View List: ' . print_r($bukuList, true));
 ?>
 <h1>Daftar Buku</h1>
 <a href="?controller=buku&action=create" class="btn-tambah-buku">Tambah Buku</a>
