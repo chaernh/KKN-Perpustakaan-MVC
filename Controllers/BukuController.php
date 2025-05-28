@@ -3,6 +3,15 @@ require_once 'Models/Buku.php';
 
 /**
  * Controller untuk mengelola operasi CRUD buku
+ * 
+ * Controller ini menangani semua operasi terkait buku seperti:
+ * - Menampilkan daftar buku
+ * - Menambah buku baru
+ * - Mengedit buku
+ * - Menghapus buku
+ * 
+ * @package Perpustakaan
+ * @version 1.0
  */
 class BukuController {
     /**
@@ -12,6 +21,10 @@ class BukuController {
     public function index() {
         $title = 'Daftar Buku - Perpustakaan';
         $bukuList = Buku::all();
+        
+        // Debug: Tampilkan data yang akan dikirim ke view
+        error_log('Data di Controller Index: ' . print_r($bukuList, true));
+        
         ob_start();
         include 'Views/Buku/list.php';
         $content = ob_get_clean();
@@ -31,48 +44,73 @@ class BukuController {
     }
 
     /**
-     * Menyimpan data buku baru ke database
-     * @param array $data Data buku yang akan disimpan (judul dan pengarang)
+     * Menyimpan data buku baru
      */
-    public function store($data) {
-        $buku = new Buku(null, $data['judul'], $data['pengarang']);
-        $buku->save();
-        header("Location: ?controller=buku&action=index");
+    public function store() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Debug: Tampilkan data yang diterima
+            error_log('Data POST: ' . print_r($_POST, true));
+            
+            $buku = new Buku(null, $_POST['judul'], $_POST['pengarang']);
+            
+            // Debug: Tampilkan objek buku yang dibuat
+            error_log('Objek Buku: ' . print_r($buku, true));
+            
+            $buku->save();
+            
+            // Debug: Tampilkan data buku setelah disimpan
+            error_log('Data Buku Setelah Save: ' . print_r(Buku::all(), true));
+        }
+        header("Location: ?controller=buku");
+        exit();
     }
 
     /**
      * Menampilkan form edit buku
-     * @param int $id ID buku yang akan diedit
      */
-    public function edit($id) {
+    public function edit() {
+        if (!isset($_GET['id'])) {
+            header("Location: ?controller=buku");
+            exit();
+        }
+
         $title = 'Edit Buku - Perpustakaan';
-        $buku = Buku::find($id);
+        $buku = Buku::find($_GET['id']);
+        
         if ($buku) {
             ob_start();
             include 'Views/Buku/form.php';
             $content = ob_get_clean();
             include 'Views/layouts/main.php';
         } else {
-            header("Location: ?controller=buku&action=index");
+            header("Location: ?controller=buku");
+            exit();
         }
     }
 
     /**
-     * Memperbarui data buku di database
-     * @param array $data Data buku yang akan diperbarui (id, judul, dan pengarang)
+     * Memperbarui data buku
      */
-    public function update($data) {
-        $buku = new Buku($data['id'], $data['judul'], $data['pengarang']);
-        $buku->update();
-        header("Location: ?controller=buku&action=index");
+    public function update() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            $buku = new Buku($_POST['id'], $_POST['judul'], $_POST['pengarang']);
+            $buku->update();
+        }
+        header("Location: ?controller=buku");
+        exit();
     }
 
     /**
-     * Menghapus buku dari database
-     * @param int $id ID buku yang akan dihapus
+     * Menghapus buku
      */
-    public function destroy($id) {
-        Buku::delete($id);
-        header("Location: ?controller=buku&action=index");
+    public function destroy() {
+        if (isset($_GET['id'])) {
+            $id = (int)$_GET['id']; // Konversi ke integer untuk keamanan
+            if ($id > 0) { // Pastikan ID valid
+                Buku::delete($id);
+            }
+        }
+        header("Location: ?controller=buku");
+        exit();
     }
 }

@@ -11,17 +11,21 @@
  * @var Buku|null $buku Objek Buku jika dalam mode edit, null jika dalam mode tambah
  */
 ?>
-<!DOCTYPE html>
-<html>
-<body>
-    <h1><?= isset($buku) ? 'Edit Buku' : 'Tambah Buku' ?></h1>
-    <form method="post" action="?controller=buku&action=<?= isset($buku) ? 'update' : 'store' ?>">
-        <?php if (isset($buku)): ?>
-            <input type="hidden" name="id" value="<?= $buku->id ?>">
-        <?php endif; ?>
-        Judul: <input type="text" name="judul" value="<?= isset($buku) ? htmlspecialchars($buku->judul) : '' ?>" required><br>
-        Pengarang: <input type="text" name="pengarang" value="<?= isset($buku) ? htmlspecialchars($buku->pengarang) : '' ?>" required><br>
-        <button type="submit" class="btn-simpan-buku">Simpan</button>
-    </form>
-</body>
-</html>
+<h1><?php echo isset($buku) ? 'Edit Buku' : 'Tambah Buku'; ?></h1>
+<form method="post" action="?controller=buku&action=<?php echo isset($buku) ? 'update' : 'store'; ?>">
+    <?php if (isset($buku)): ?>
+        <input type="hidden" name="id" value="<?php echo $buku->id; ?>">
+    <?php endif; ?>
+    <div>
+        <label for="judul">Judul:</label>
+        <input type="text" id="judul" name="judul" value="<?php echo isset($buku) ? htmlspecialchars($buku->judul) : ''; ?>" required>
+    </div>
+    <div>
+        <label for="pengarang">Pengarang:</label>
+        <input type="text" id="pengarang" name="pengarang" value="<?php echo isset($buku) ? htmlspecialchars($buku->pengarang) : ''; ?>" required>
+    </div>
+    <div>
+        <button type="submit">Simpan</button>
+        <a href="?controller=buku" class="btn-cancel">Batal</a>
+    </div>
+</form>

@@ -74,8 +74,9 @@ class Buku {
     /**
      * Menghapus buku dari DummyData
      * @param int $id ID buku yang akan dihapus
+     * @return bool true jika berhasil dihapus, false jika gagal
      */
     public static function delete($id) {
-        DummyData::deleteBuku($id);
+        return DummyData::deleteBuku($id);
     }
 }
