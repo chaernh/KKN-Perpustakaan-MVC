@@ -4,7 +4,7 @@ Sistem manajemen perpustakaan sederhana yang dibangun menggunakan arsitektur MVC
 
 ## Deskripsi
 
-Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data. Sistem ini menggunakan data dummy untuk memudahkan pengembangan tanpa memerlukan database.
+Sistem ini memungkinkan pengguna untuk mengelola data buku dan anggota perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data. Sistem ini menggunakan data dummy untuk memudahkan pengembangan tanpa memerlukan database.
 
 ## Fitur
 
@@ -14,6 +14,11 @@ Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan f
   - Menambah buku baru
   - Mengedit data buku
   - Menghapus buku
+- [x] Manajemen anggota (CRUD)
+  - Melihat daftar anggota
+  - Menambah anggota baru
+  - Mengedit data anggota
+  - Menghapus anggota
 - [x] Layout responsif dengan navbar
 - [x] Validasi input
 - [x] Data dummy untuk pengembangan
@@ -23,21 +28,25 @@ Sistem ini memungkinkan pengguna untuk mengelola data buku perpustakaan dengan f
 ```
 perpustakaan-mvc/
 ├── Configs/
-│   ├── Database.php      # Konfigurasi koneksi database (tidak digunakan)
 │   └── DummyData.php     # Data dummy untuk pengembangan
 ├── Controllers/
 │   ├── BerandaController.php # Controller untuk halaman beranda
-│   └── BukuController.php    # Controller untuk operasi buku
+│   ├── BukuController.php    # Controller untuk operasi buku
+│   └── AnggotaController.php # Controller untuk operasi anggota
 ├── Models/
-│   └── Buku.php          # Model untuk operasi data buku
+│   ├── Buku.php          # Model untuk operasi data buku
+│   └── Anggota.php       # Model untuk operasi data anggota
 ├── Views/
 │   ├── layouts/
 │   │   └── main.php      # Layout utama dengan navbar
 │   ├── Beranda/
 │   │   └── index.php     # View halaman beranda
-│   └── Buku/
-│       ├── list.php      # View daftar buku
-│       └── form.php      # View form tambah/edit buku
+│   ├── Buku/
+│   │   ├── list.php      # View daftar buku
+│   │   └── form.php      # View form tambah/edit buku
+│   └── Anggota/
+│       ├── list.php      # View daftar anggota
+│       └── form.php      # View form tambah/edit anggota
 └── index.php             # Entry point aplikasi
 ```
 
@@ -69,14 +78,15 @@ perpustakaan-mvc/
 2. Navigasi:
    - Klik "Beranda" untuk kembali ke halaman utama
    - Klik "Daftar Buku" untuk melihat dan mengelola buku
-   - Gunakan tombol "Tambah Buku" untuk menambah buku baru
-   - Gunakan tombol "Edit" dan "Hapus" untuk mengelola buku yang ada
+   - Klik "Daftar Anggota" untuk melihat dan mengelola anggota
+   - Gunakan tombol "Tambah" untuk menambah data baru
+   - Gunakan tombol "Edit" dan "Hapus" untuk mengelola data yang ada
 
 ## Struktur MVC
 
-### Model (Models/Buku.php)
+### Model (Models/)
 - Menangani logika data
-- Berisi method untuk CRUD operasi buku
+- Berisi method untuk CRUD operasi
 - Menggunakan DummyData untuk penyimpanan data
 
 ### View (Views/)
@@ -92,7 +102,7 @@ perpustakaan-mvc/
 ## Data Dummy
 
 Sistem menggunakan data dummy yang disimpan di `Configs/DummyData.php`. Data ini mencakup:
-- Daftar buku awal
+- Daftar buku dan anggota awal
 - Method untuk operasi CRUD
 - Manajemen ID otomatis
 
