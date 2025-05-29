@@ -1,110 +1,143 @@
 # Sistem Perpustakaan MVC
 
-Sistem manajemen perpustakaan sederhana yang dibangun menggunakan arsitektur MVC (Model-View-Controller) dengan PHP.
+Sistem manajemen perpustakaan berbasis web yang dibangun menggunakan arsitektur MVC (Model-View-Controller) dengan PHP dan database MySQL.
 
 ## Deskripsi
 
-Sistem ini memungkinkan pengguna untuk mengelola data buku dan anggota perpustakaan dengan fitur CRUD (Create, Read, Update, Delete). Dibangun menggunakan pendekatan MVC untuk memisahkan logika bisnis, tampilan, dan kontrol data. Sistem ini menggunakan data dummy untuk memudahkan pengembangan tanpa memerlukan database.
+Aplikasi ini memungkinkan pengguna untuk mengelola data buku, kategori, siswa, dan peminjaman buku dengan fitur CRUD (Create, Read, Update, Delete). Sistem ini menggunakan database MySQL untuk penyimpanan data dan menerapkan pemisahan logika bisnis, tampilan, dan kontrol data dengan pola MVC.
 
 ## Fitur
 
 - [x] Halaman beranda dengan navigasi
 - [x] Manajemen buku (CRUD)
-  - Melihat daftar buku
-  - Menambah buku baru
-  - Mengedit data buku
-  - Menghapus buku
-- [x] Manajemen anggota (CRUD)
-  - Melihat daftar anggota
-  - Menambah anggota baru
-  - Mengedit data anggota
-  - Menghapus anggota
+- [x] Manajemen kategori (CRUD)
+- [x] Manajemen siswa (CRUD)
+- [x] Manajemen peminjaman buku (CRUD)
 - [x] Layout responsif dengan navbar
 - [x] Validasi input
-- [x] Data dummy untuk pengembangan
+- [x] Relasi antar data (buku, kategori, siswa, peminjaman)
+- [x] Format tanggal otomatis
 
 ## Struktur Proyek
 
 ```
 perpustakaan-mvc/
 ├── Configs/
-│   └── DummyData.php     # Data dummy untuk pengembangan
+│   └── Database.php         # Konfigurasi koneksi database MySQL
 ├── Controllers/
-│   ├── BerandaController.php # Controller untuk halaman beranda
-│   ├── BukuController.php    # Controller untuk operasi buku
-│   └── AnggotaController.php # Controller untuk operasi anggota
+│   ├── BerandaController.php    # Controller halaman beranda
+│   ├── BukuController.php       # Controller buku
+│   ├── KategoriController.php   # Controller kategori
+│   ├── SiswaController.php      # Controller siswa
+│   └── PeminjamanController.php # Controller peminjaman
 ├── Models/
-│   ├── Buku.php          # Model untuk operasi data buku
-│   └── Anggota.php       # Model untuk operasi data anggota
+│   ├── Buku.php            # Model buku
+│   ├── Kategori.php        # Model kategori
+│   ├── Siswa.php           # Model siswa
+│   └── Peminjaman.php      # Model peminjaman
 ├── Views/
 │   ├── layouts/
-│   │   └── main.php      # Layout utama dengan navbar
+│   │   └── main.php        # Layout utama dengan navbar
 │   ├── Beranda/
-│   │   └── index.php     # View halaman beranda
+│   │   └── index.php       # View halaman beranda
 │   ├── Buku/
-│   │   ├── list.php      # View daftar buku
-│   │   └── form.php      # View form tambah/edit buku
-│   └── Anggota/
-│       ├── list.php      # View daftar anggota
-│       └── form.php      # View form tambah/edit anggota
-└── index.php             # Entry point aplikasi
+│   │   ├── list.php        # View daftar buku
+│   │   └── form.php        # View form tambah/edit buku
+│   ├── Kategori/
+│   │   ├── list.php        # View daftar kategori
+│   │   └── form.php        # View form tambah/edit kategori
+│   ├── Siswa/
+│   │   ├── list.php        # View daftar siswa
+│   │   └── form.php        # View form tambah/edit siswa
+│   └── Peminjaman/
+│       ├── list.php        # View daftar peminjaman
+│       └── form.php        # View form tambah/edit peminjaman
+└── index.php               # Entry point aplikasi
 ```
 
 ## Persyaratan Sistem
 
 - PHP 7.4 atau lebih tinggi
+- MySQL/MariaDB
 - Web server (Apache/Nginx)
 - XAMPP (direkomendasikan untuk development)
 
 ## Instalasi
 
-1. Clone repositori ini ke direktori web server Anda:
+1. **Clone repositori ini ke direktori web server Anda:**
    ```bash
    git clone [url-repositori]
    ```
 
-2. Buka aplikasi melalui browser:
+2. **Buat database MySQL:**
+   ```sql
+   CREATE DATABASE perpustakaan;
+   ```
+
+3. **Import struktur tabel:**
+   Buat tabel `buku`, `kategori`, `siswa`, dan `peminjaman` sesuai kebutuhan. Contoh:
+   ```sql
+   CREATE TABLE kategori (
+     id_kategori INT AUTO_INCREMENT PRIMARY KEY,
+     nama_kategori VARCHAR(100) NOT NULL
+   );
+   CREATE TABLE buku (
+     id_buku INT AUTO_INCREMENT PRIMARY KEY,
+     id_kategori INT,
+     nama_buku VARCHAR(100) NOT NULL,
+     pengarang VARCHAR(100),
+     genre VARCHAR(50),
+     FOREIGN KEY (id_kategori) REFERENCES kategori(id_kategori)
+   );
+   CREATE TABLE siswa (
+     id_siswa INT AUTO_INCREMENT PRIMARY KEY,
+     nama_siswa VARCHAR(100) NOT NULL,
+     kelas_siswa VARCHAR(20),
+     jurusan VARCHAR(50),
+     email VARCHAR(100)
+   );
+   CREATE TABLE peminjaman (
+     id_peminjaman INT AUTO_INCREMENT PRIMARY KEY,
+     id_siswa INT,
+     id_buku INT,
+     tanggal_peminjaman DATE,
+     tanggal_pengembalian DATE,
+     status VARCHAR(20),
+     FOREIGN KEY (id_siswa) REFERENCES siswa(id_siswa),
+     FOREIGN KEY (id_buku) REFERENCES buku(id_buku)
+   );
+   ```
+
+4. **Konfigurasi koneksi database:**
+   - Edit file `Configs/Database.php` dan sesuaikan host, username, password, dan nama database.
+
+5. **Jalankan aplikasi melalui browser:**
    ```
    http://localhost/perpustakaan-mvc
    ```
 
 ## Penggunaan
 
-1. Buka aplikasi melalui browser:
-   ```
-   http://localhost/perpustakaan-mvc
-   ```
-
-2. Navigasi:
-   - Klik "Beranda" untuk kembali ke halaman utama
-   - Klik "Daftar Buku" untuk melihat dan mengelola buku
-   - Klik "Daftar Anggota" untuk melihat dan mengelola anggota
-   - Gunakan tombol "Tambah" untuk menambah data baru
-   - Gunakan tombol "Edit" dan "Hapus" untuk mengelola data yang ada
+- Navigasi melalui menu di navbar untuk mengelola buku, kategori, siswa, dan peminjaman.
+- Gunakan tombol "Tambah" untuk menambah data baru.
+- Gunakan tombol "Edit" dan "Hapus" untuk mengelola data yang ada.
+- Tanggal otomatis diformat sesuai kebutuhan.
 
 ## Struktur MVC
 
 ### Model (Models/)
-- Menangani logika data
-- Berisi method untuk CRUD operasi
-- Menggunakan DummyData untuk penyimpanan data
+- Menangani logika data dan operasi CRUD ke database
+- Setiap entitas (Buku, Kategori, Siswa, Peminjaman) memiliki model sendiri
 
 ### View (Views/)
 - Menampilkan antarmuka pengguna
-- Terdiri dari layout utama dan view spesifik
+- Terdiri dari layout utama dan view spesifik untuk setiap fitur
 - Menggunakan PHP untuk menampilkan data dinamis
 
 ### Controller (Controllers/)
 - Menangani request dari user
 - Mengkoordinasikan antara Model dan View
 - Memproses data sebelum ditampilkan/disimpan
-
-## Data Dummy
-
-Sistem menggunakan data dummy yang disimpan di `Configs/DummyData.php`. Data ini mencakup:
-- Daftar buku dan anggota awal
-- Method untuk operasi CRUD
-- Manajemen ID otomatis
 
 ## Pengembangan
 
