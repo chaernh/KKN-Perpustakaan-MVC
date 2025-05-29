@@ -65,7 +65,9 @@
         button:hover {
             background-color: #45a049;
         }
-        .btn-tambah-buku {
+        .btn-tambah-buku,
+				.btn-tambah-kategori,
+				.btn-tambah-siswa {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
@@ -74,7 +76,9 @@
             border-radius: 4px;
             margin-bottom: 20px;
         }
-        .btn-tambah-buku:hover {
+        .btn-tambah-buku:hover,
+				.btn-tambah-kategori:hover,
+				.btn-tambah-siswa:hover {
             background-color: #45a049;
         }
         ul {
@@ -91,10 +95,14 @@
             justify-content: space-between;
             align-items: center;
         }
-        .anggota-info, .buku-info {
+        .buku-info,
+				.kategori-info,
+				.siswa-info {
             flex-grow: 1;
         }
-        .anggota-actions, .buku-actions {
+        .buku-actions,
+				.kategori-actions,
+				.siswa-actions {
             margin-left: 20px;
         }
         .btn-edit {
@@ -129,7 +137,8 @@
     <div class="navbar">
         <a href="?controller=beranda">Beranda</a>
         <a href="?controller=buku">Buku</a>
-        <a href="?controller=anggota">Anggota</a>
+        <a href="?controller=kategori">Kategori</a>
+        <a href="?controller=siswa">Siswa</a>
     </div>
     
     <?php echo $content; ?>

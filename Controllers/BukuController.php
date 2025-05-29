@@ -1,5 +1,6 @@
 <?php
 require_once 'Models/Buku.php';
+require_once 'Models/Kategori.php';
 
 /**
  * Controller untuk mengelola operasi CRUD buku
@@ -14,13 +15,22 @@ require_once 'Models/Buku.php';
  * @version 1.0
  */
 class BukuController {
+    private $bukuModel;
+    private $kategoriModel;
+
+    public function __construct() {
+        $this->bukuModel = new Buku();
+        $this->kategoriModel = new Kategori();
+    }
+
     /**
      * Menampilkan daftar semua buku
      * Method ini mengambil semua data buku dan menampilkannya di view list.php
      */
     public function index() {
         $title = 'Daftar Buku - Perpustakaan';
-        $bukuList = Buku::all();
+        $stmt = $this->bukuModel->getAllBuku();
+        $bukuList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         ob_start();
         include 'Views/Buku/list.php';
@@ -34,6 +44,9 @@ class BukuController {
      */
     public function create() {
         $title = 'Tambah Buku - Perpustakaan';
+        $stmt = $this->kategoriModel->getAllKategori();
+        $kategoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
         ob_start();
         include 'Views/Buku/form.php';
         $content = ob_get_clean();
@@ -45,10 +58,20 @@ class BukuController {
      */
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $buku = new Buku(null, $_POST['judul'], $_POST['pengarang']);
-            $buku->save();
+            $buku = new Buku(
+                null,
+                $_POST['id_kategori'],
+                $_POST['nama_buku'],
+                $_POST['pengarang'],
+                $_POST['genre']
+            );
+            
+            if ($buku->createBuku()) {
+                header("Location: ?controller=buku");
+                exit();
+            }
         }
-        header("Location: ?controller=buku");
+        header("Location: ?controller=buku&action=create");
         exit();
     }
 
@@ -62,9 +85,13 @@ class BukuController {
         }
 
         $title = 'Edit Buku - Perpustakaan';
-        $buku = Buku::find($_GET['id']);
+        $stmt = $this->bukuModel->getBukuById($_GET['id']);
+        $buku = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($buku) {
+            $stmt = $this->kategoriModel->getAllKategori();
+            $kategoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
             ob_start();
             include 'Views/Buku/form.php';
             $content = ob_get_clean();
@@ -79,9 +106,19 @@ class BukuController {
      * Memperbarui data buku
      */
     public function update() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-            $buku = new Buku($_POST['id'], $_POST['judul'], $_POST['pengarang']);
-            $buku->update();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_buku'])) {
+            $buku = new Buku(
+                $_POST['id_buku'],
+                $_POST['id_kategori'],
+                $_POST['nama_buku'],
+                $_POST['pengarang'],
+                $_POST['genre']
+            );
+            
+            if ($buku->updateBuku()) {
+                header("Location: ?controller=buku");
+                exit();
+            }
         }
         header("Location: ?controller=buku");
         exit();
@@ -92,9 +129,9 @@ class BukuController {
      */
     public function destroy() {
         if (isset($_GET['id'])) {
-            $id = (int)$_GET['id']; // Konversi ke integer untuk keamanan
-            if ($id > 0) { // Pastikan ID valid
-                Buku::delete($id);
+            $id = (int)$_GET['id'];
+            if ($id > 0) {
+                $this->bukuModel->deleteBuku($id);
             }
         }
         header("Location: ?controller=buku");
