@@ -67,7 +67,8 @@
         }
         .btn-tambah-buku,
 				.btn-tambah-kategori,
-				.btn-tambah-siswa {
+				.btn-tambah-siswa,
+				.btn-tambah-peminjaman {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
@@ -78,7 +79,8 @@
         }
         .btn-tambah-buku:hover,
 				.btn-tambah-kategori:hover,
-				.btn-tambah-siswa:hover {
+				.btn-tambah-siswa:hover,
+				.btn-tambah-peminjaman:hover {
             background-color: #45a049;
         }
         ul {
@@ -97,12 +99,14 @@
         }
         .buku-info,
 				.kategori-info,
-				.siswa-info {
+				.siswa-info,
+				.peminjaman-info {
             flex-grow: 1;
         }
         .buku-actions,
 				.kategori-actions,
-				.siswa-actions {
+				.siswa-actions,
+				.peminjaman-actions {
             margin-left: 20px;
         }
         .btn-edit {
@@ -131,6 +135,20 @@
         .btn-cancel:hover {
             background-color: #666;
         }
+				.badge {
+					font-size: 12px;
+					padding: 5px 10px;
+					border-radius: 4px;
+				}
+				.badge-blue {
+					background-color: #2196F3;
+					color: white;
+				}
+				.badge-success {
+					background-color: #4CAF50;
+					color: white;
+				}
+					
     </style>
 </head>
 <body>
@@ -139,6 +157,7 @@
         <a href="?controller=buku">Buku</a>
         <a href="?controller=kategori">Kategori</a>
         <a href="?controller=siswa">Siswa</a>
+				<a href="?controller=peminjaman">Peminjaman</a>
     </div>
     
     <?php echo $content; ?>
