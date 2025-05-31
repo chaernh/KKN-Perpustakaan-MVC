@@ -128,8 +128,6 @@
 <body>
     <div class="navbar">
         <a href="?controller=beranda">Beranda</a>
-        <a href="?controller=buku">Buku</a>
-        <a href="?controller=anggota">Anggota</a>
     </div>
     
     <?php echo $content; ?>
