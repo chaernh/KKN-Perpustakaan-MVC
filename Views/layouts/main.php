@@ -154,10 +154,6 @@
 <body>
     <div class="navbar">
         <a href="?controller=beranda">Beranda</a>
-        <a href="?controller=buku">Buku</a>
-        <a href="?controller=kategori">Kategori</a>
-        <a href="?controller=siswa">Siswa</a>
-				<a href="?controller=peminjaman">Peminjaman</a>
     </div>
     
     <?php echo $content; ?>
